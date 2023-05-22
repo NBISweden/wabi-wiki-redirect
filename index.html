@@ -1,0 +1,87 @@
+<html>
+
+    <h1>We have moved!</h1>
+    <p>
+        The WABI wiki pages have been moved to SciLifeLab Confluence.
+    
+        <p id="message"></p>
+        <a href="" id="confluence_taget">This site relies on Javascript to generate a redirection URL based off the URL you tried to reach. Please enable Javascript and try again.</a><br/><br/>
+    
+	You will have to login with an Atlassian account at the new site.<br>
+	When creating the Atlassian account, please use the same email as you used for the WABI wiki.<br>
+	Access permissions have been transferred, so that you should be able to access the same pages<br>
+	on the new site	if you use the same email address as on the old site.<br>
+        <br>
+        If you have problems accessing the new site, please get in touch with your contact at NBIS/WABI.
+    </p>
+    
+    <script>
+        // get the query from the url
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const query = urlParams.get('q');
+        const query_first_word = query.split("/")[1];
+    
+        // get elements
+        var link = document.getElementById('confluence_taget');
+        var message = document.getElementById('message');
+    
+        // replace special characters
+        // query_encoded = query.replace(/ /g, "+");
+        // query_encoded = query_encoded.replace(/:/g, "%3A");
+        // query_encoded = query_encoded.replace(/,/g, "%2C");
+        // query_encoded = query_encoded.replace(/\(/g, "%28");
+        // query_encoded = query_encoded.replace(/\)/g, "%29");
+        // query_encoded = query_encoded.replace(/'/g, "%27");
+        // query_encoded = query_encoded.replace(/#/g, "%23");
+        // query_encoded = query_encoded.replace(/\>/g, "%3E");
+        // console.log(query_encoded);
+        // console.log(link_dict.has(query_encoded));
+        // console.log(link_dict.get(query_encoded));
+    
+    
+        // is it a normal confluence link?
+        if (query_first_word == 'display') {
+    
+    	    // pick out the space key
+            const space_key = query.split("/")[2];
+    
+            // handle special cases, i.e. spaces that were renamed during the migration step due to naming conflicts
+            if(space_key == 'AL') {
+                space_key = 'NBISAL';
+    
+            } else if(space_key == 'SCP') {
+                space_key = 'NBISSCP';
+    
+            } else if(space_key == 'SM') {
+                space_key = 'NBISSM';
+    
+            }
+    
+            message.innerHTML = 'Please use this link to reach the corresponding space on the new site:';
+     
+            link.setAttribute('href', `https://scilifelab.atlassian.net/wiki/spaces/${space_key}/`);
+            link.text = `https://scilifelab.atlassian.net/wiki/spaces/${space_key}/`;
+    
+    
+        // if they want to go to the main page of the wiki
+        } else if (query_first_word == '') {
+    
+            message.innerHTML = 'Please use this link to reach the new site:';
+    
+            link.setAttribute('href', `https://scilifelab.atlassian.net/`);
+            link.text = `https://scilifelab.atlassian.net/`;
+    
+        // if the link is in an unknown format
+        } else {
+    
+            message.innerHTML = `The link you have used is in a format not yet handled by this redirect page. Here is a link to the new wiki's main page instead:`;
+    
+            link.setAttribute('href', `https://scilifelab.atlassian.net/`);
+            link.text = `https://scilifelab.atlassian.net/`;
+    
+        }
+    
+    </script>
+
+</html>     

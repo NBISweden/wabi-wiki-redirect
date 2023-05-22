@@ -1,0 +1,25 @@
+    server { # simple reverse-proxy
+        listen 80;
+        server_name redirect.scilifelab.se;
+
+        return 301 https://$host$request_uri;
+    }
+
+   server { # simple redirect
+        listen 443 ssl http2;
+
+        server_name wabi-wiki.scilifelab.se wabi-redirect.dahlo.se;
+        access_log /var/log/nginx/wabi-wiki-redirect_tls.access.log;
+
+        ssl_certificate /etc/letsencrypt/live/henry.nbis.se/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/henry.nbis.se/privkey.pem;
+
+        root /data/web/wabi-wiki-redirect;
+
+        location = /index.html {
+        }   
+
+        location / { 
+            return 301 /index.html?q=$uri;
+        }   
+    }
